@@ -38,33 +38,6 @@ const applicationBlocks = [
   },
 ];
 
-const customerResults = [
-  {
-    image: "assets/depoimento-fossa-01.jpg",
-    name: "Joao Ribeiro",
-    location: "Presidente Tancredo Neves - BA",
-    quote:
-      "Com o material em maos, ficou mais facil entender a posicao das caixas e explicar para o pedreiro.",
-    result: "Aplicacao em casa",
-  },
-  {
-    image: "assets/depoimento-fossa-02.jpg",
-    name: "Carlos Almeida",
-    location: "Valenca - BA",
-    quote:
-      "O PDF ajudou a conferir a tubulacao e seguir uma ordem mais clara na montagem.",
-    result: "Obra acompanhada",
-  },
-  {
-    image: "assets/depoimento-fossa-03.jpg",
-    name: "Marcos Santos",
-    location: "Wenceslau Guimaraes - BA",
-    quote:
-      "Recomendo porque o projeto mostra o caminho e evita ficar fazendo tudo no improviso.",
-    result: "Projeto aprovado pelo comprador",
-  },
-];
-
 const materialPreviews = [
   {
     image: "assets/ebook-cover-3d.jpg",
@@ -125,9 +98,6 @@ function EbookMockup() {
 
 function SepticProjectSalesPage() {
   const [materialIndex, setMaterialIndex] = useState(0);
-  const [customerIndex, setCustomerIndex] = useState(0);
-  const [salesUpdatedAt, setSalesUpdatedAt] = useState("agora");
-  const [showScrollGuide, setShowScrollGuide] = useState(true);
   const [materialRevealed, setMaterialRevealed] = useState(false);
   const [checkoutUrl, setCheckoutUrl] = useState(KIWIFY_CHECKOUT_URL);
   const activePreview = materialPreviews[materialIndex] ?? materialPreviews[0]!;
@@ -172,87 +142,52 @@ function SepticProjectSalesPage() {
 
   useEffect(() => {
     const materialSection = document.getElementById("material");
-
     if (!materialSection) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry) return;
-        if (entry.isIntersecting) {
-          setShowScrollGuide(false);
-          setMaterialRevealed(true);
-        } else if (entry.boundingClientRect.top > 0) {
-          setShowScrollGuide(true);
-        }
-      },
-      {
-        threshold: 0.08,
-        rootMargin: "0px 0px -8% 0px",
-      },
-    );
-
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        setMaterialRevealed(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.08 });
     observer.observe(materialSection);
-
     return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const now = new Date();
-    setSalesUpdatedAt(
-      now.toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    );
   }, []);
 
   return (
     <main className="sales-page">
       <div className="urgent-topbar" role="status">
-        CONDIÇÃO ATUAL: MATERIAL COMPLETO POR R$ 27 • ACESSO IMEDIATO
+        PROJETO FOSSA SÉPTICA · PDF COMPLETO POR R$ 27 · ACESSO DIGITAL
       </div>
-      <section id="topo" className="hero-section hero-service-landing">
-        <a className="brand-logo brand-logo-hero" href="#topo" aria-label="Projeto Fossa Séptica">
-          <img
-            src="assets/logo-projeto-fossa-septica.webp"
-            alt="Projeto Fossa Séptica"
-            fetchPriority="high"
-            decoding="async"
-          />
+      <section id="topo" className="nova-hero" aria-labelledby="nova-title">
+        <a className="nova-hero-logo" href="#topo" aria-label="Projeto Fossa Séptica, voltar ao topo">
+          <img src="assets/logo-projeto-fossa-septica.webp" alt="Projeto Fossa Séptica" decoding="async" fetchPriority="high" />
         </a>
-
-        <h1 className="hero-service-title">
-          Aprenda a instalar fossa séptica e comece a oferecer esse serviço
+        <span className="nova-hero-eyebrow">GUIA EM PDF · PASSO A PASSO ILUSTRADO</span>
+        <h1 id="nova-title">
+          Aprenda a montagem de fossa séptica com caixas d'água e conheça um serviço para oferecer na sua região
         </h1>
-
-        <div className="hero-visual hero-avatar-visual">
+        <p className="nova-hero-subtitle">
+          Entenda as etapas da instalação com fotos, medidas e conexões organizadas em um material visual que você pode consultar quando precisar.
+        </p>
+        <ul className="nova-hero-benefits">
+          <li>Veja a ordem da montagem sem depender de explicações soltas</li>
+          <li>Confira referências de medidas, caixas e tubulações</li>
+          <li>Tenha o passo a passo reunido em um único PDF</li>
+        </ul>
+        <div className="nova-hero-visual">
           <img
-            className="hero-avatar-image"
-            src="assets/hero-service-fossa.jpg"
-            alt="Apresentador segurando o material com uma instalação de fossa séptica ao fundo"
+            className="nova-hero-product"
+            src="assets/ebook-cover-3d.jpg"
+            alt="Capa do material em PDF Projeto Fossa Séptica"
             fetchPriority="high"
             decoding="async"
           />
+          <span className="nova-hero-visual-label">CONHEÇA O MATERIAL ANTES DE COMPRAR</span>
         </div>
-
-        <p className="hero-service-subtitle">
-          Material visual para quem está começando: veja a montagem passo a passo e entenda um serviço que pode ser cobrado de R$ 600 a R$ 800 por instalação.
-        </p>
-
-        <a className="primary-button hero-service-cta" href="#material">
-          QUERO VER O PASSO A PASSO
+        <a className="primary-button nova-hero-cta" href="#material">
+          VER AS PÁGINAS DO MATERIAL
         </a>
-
-        <a
-          className={`hero-scroll-guide hero-service-arrow ${showScrollGuide ? "" : "hero-scroll-guide-hidden"}`}
-          href="#material"
-          aria-label="Ir para a próxima seção"
-          aria-hidden={!showScrollGuide}
-          tabIndex={showScrollGuide ? 0 : -1}
-        >
-          <span className="hero-scroll-guide-arrow">↓</span>
-        </a>
-
+        <p className="nova-hero-note">Prévia real do conteúdo · Pagamento único de R$ 27</p>
       </section>
 
       <section
@@ -336,72 +271,42 @@ function SepticProjectSalesPage() {
         </div>
       </section>
 
-      <section className="customer-section testimonials-showcase" aria-labelledby="clientes-title">
-        <div className="section-heading testimonials-heading">
-          <h2 id="clientes-title">O que nossos clientes falam</h2>
+      <section className="nova-benefits" aria-labelledby="nova-benefits-title">
+        <span className="nova-section-kicker">O QUE VOCÊ GANHA NA PRÁTICA</span>
+        <h2 id="nova-benefits-title">Um guia que transforma etapas técnicas em orientações mais fáceis de entender</h2>
+        <div className="nova-benefit-grid">
+          <article><span>01</span><h3>Ordem de montagem</h3><p>Entenda por onde começar e qual é a sequência das principais etapas.</p></article>
+          <article><span>02</span><h3>Referências visuais</h3><p>Veja imagens de caixas, conexões e tubulações para reconhecer os componentes.</p></article>
+          <article><span>03</span><h3>Consulta rápida</h3><p>Volte às imagens do PDF sempre que precisar revisar uma etapa do material.</p></article>
+          <article><span>04</span><h3>Preparação para aprender</h3><p>Organize seu conhecimento antes de avaliar a possibilidade de oferecer o serviço.</p></article>
         </div>
+      </section>
 
-        <div className="testimonials-carousel-shell">
-          <div
-            className="testimonials-track"
-            style={{ "--testimonial-index": customerIndex } as any}
-          >
-            {[...customerResults, ...customerResults.slice(0, 2)].map((customer, index) => (
-              <article className="testimonial-card" key={`${customer.image}-${index}`}>
-                <div className="testimonial-reviewer">
-                  <div className="testimonial-avatar" aria-hidden="true">
-                    {customer.name.charAt(0)}
-                  </div>
-
-                  <div className="testimonial-reviewer-meta">
-                    <strong>{customer.name}</strong>
-                    <span>{customer.location}</span>
-                  </div>
-
-                  <span className="testimonial-more" aria-hidden="true">⋮</span>
-                </div>
-
-                <div className="testimonial-stars" aria-label="5 estrelas">★★★★★</div>
-
-                <p className="testimonial-quote">“{customer.quote}”</p>
-
-                <div className="testimonial-footer">
-                  <small>{customer.result}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="testimonials-controls">
-            <button
-              type="button"
-              onClick={() => changeSlide(setCustomerIndex, customerResults.length, -1)}
-              aria-label="Depoimentos anteriores"
-            >
-              ‹
-            </button>
-
-            <div className="testimonials-dots" aria-label="Navegação dos depoimentos">
-              {customerResults.map((customer, index) => (
-                <button
-                  type="button"
-                  className={index === customerIndex ? "active" : ""}
-                  key={customer.image}
-                  onClick={() => setCustomerIndex(index)}
-                  aria-label={`Ver grupo começando por ${customer.name}`}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => changeSlide(setCustomerIndex, customerResults.length, 1)}
-              aria-label="Próximos depoimentos"
-            >
-              ›
-            </button>
-          </div>
+      <section className="nova-audience" aria-labelledby="nova-audience-title">
+        <div className="nova-audience-copy">
+          <span className="nova-section-kicker">ESSE MATERIAL FOI PENSADO PARA VOCÊ?</span>
+          <h2 id="nova-audience-title">Para quem quer aprender sem começar do zero</h2>
+          <p>Uma referência visual para quem busca entender melhor uma instalação com caixas d'água.</p>
         </div>
+        <ul>
+          <li>Quem está começando e precisa visualizar a montagem</li>
+          <li>Quem trabalha com obras, manutenção ou pequenos serviços</li>
+          <li>Quem deseja estudar a técnica antes de oferecer um novo serviço</li>
+          <li>Quem quer conversar com o responsável pela obra com mais clareza</li>
+        </ul>
+        <small>O PDF é material de referência, não substitui avaliação do terreno, exigências sanitárias, normas aplicáveis nem o trabalho de profissional habilitado quando necessário.</small>
+      </section>
+
+      <section className="nova-proof" aria-labelledby="nova-proof-title">
+        <span className="nova-section-kicker">TRANSPARÊNCIA</span>
+        <h2 id="nova-proof-title">Você vê o conteúdo antes de decidir</h2>
+        <p>Sem depoimentos inventados ou promessas de ganhos: a melhor prova aqui são as páginas e fotos que demonstram o que o material ensina.</p>
+        <div className="nova-proof-grid">
+          <img src="assets/pdf-material-02.jpg" alt="Página do PDF com referências de medidas" loading="lazy" />
+          <img src="assets/pdf-material-04.jpg" alt="Página do PDF com detalhes da montagem" loading="lazy" />
+          <img src="assets/fossa-cliente-07.jpg" alt="Fotografia de instalação com caixas e tubulações" loading="lazy" />
+        </div>
+        <a href="#material" className="nova-inline-link">Rever todas as páginas do PDF →</a>
       </section>
 
       <section className="confidence-section">
@@ -433,7 +338,7 @@ function SepticProjectSalesPage() {
 
           <div className="income-promo-overlay-text">
             <h1 id="income-title">UM NOVO SERVIÇO PARA VOCÊ OFERECER</h1>
-            <p>Instalações desse tipo podem ser cobradas de R$ 600 a R$ 800, conforme a região e o tipo de serviço.</p>
+            <p>Um tipo de serviço que você pode estudar para oferecer conforme sua experiência, a demanda local e as exigências técnicas. Não existe garantia de clientes ou renda.</p>
           </div>
         </div>
 
@@ -445,53 +350,48 @@ function SepticProjectSalesPage() {
         </a>
       </section>
 
-      <section id="comprar" className="final-cta">
+      <section id="comprar" className="final-cta nova-checkout-section">
         <div className="final-copy">
           <div className="brand-logo brand-logo-offer" aria-label="Projeto Fossa Séptica">
-            <img
-              src="assets/logo-projeto-fossa-septica.webp"
-              alt="Projeto Fossa Séptica"
-              loading="lazy"
-              decoding="async"
-            />
+            <img src="assets/logo-projeto-fossa-septica.webp" alt="Projeto Fossa Séptica" loading="lazy" decoding="async" />
           </div>
-          <h2>Receba agora o material completo de instalação de fossa séptica</h2>
-          <img
-            className="final-ebook-cover"
-            src="assets/ebook-cover-3d.jpg"
-            alt="Capa 3D do Projeto Fossa Septica Caixa D'agua"
-            loading="lazy"
-          />
+          <h2>Receba o material completo para consultar o passo a passo</h2>
+          <img className="final-ebook-cover" src="assets/ebook-cover-3d.jpg" alt="Capa do guia Projeto Fossa Séptica em PDF" loading="lazy" />
+          <div className="nova-offer-contents">
+            <h3>O que está incluído no PDF</h3>
+            <ul>
+              <li>Visão geral do sistema e seus componentes</li>
+              <li>Medidas e referências para organizar as caixas</li>
+              <li>Preparação e furação das tampas</li>
+              <li>Montagem e conexão das tubulações</li>
+              <li>Escavação e preparo do local</li>
+              <li>Orientações visuais para finalização</li>
+            </ul>
+          </div>
         </div>
-
-        <div className="final-offer-box">
-          <div className="offer-price" aria-label="Oferta especial">
-            <strong>Oferta de hoje</strong>
-            <span className="offer-badge">-69% OFF</span>
-            <div>
-              <span className="old-price">De R$87</span>
-              <span className="new-price">R$27</span>
-            </div>
-            <p className="offer-save">Voce economiza R$60 e recebe o PDF na hora.</p>
-            <small>Pagamento unico. Acesso imediato ao material completo.</small>
+        <div className="final-offer-box nova-offer-card">
+          <div className="offer-price" aria-label="Preço do material">
+            <strong>Material completo em PDF</strong>
+            <span className="nova-price-label">PAGAMENTO ÚNICO</span>
+            <div><span className="new-price">R$ 27</span></div>
+            <p className="offer-save">Sem mensalidade. Acesso digital após a confirmação do pagamento.</p>
+            <small>Confira as páginas do material acima antes de comprar.</small>
           </div>
-
           <div className="final-action">
-            <a className="primary-button final-button" href={checkoutUrl} onClick={handleCheckoutClick}>Comprar agora</a>
-            <div className="sales-meter" aria-label="19 vendidos hoje">
-              <strong>19 VENDIDOS HOJE</strong>
-              <div className="sales-loading" aria-hidden="true">
-                <span />
-                <i />
-              </div>
-              <small className="sales-update">Atualizado às {salesUpdatedAt}</small>
-              <img className="payment-banner" src="assets/payment-secure-banner.png" alt="Pagamento seguro e confiavel" loading="lazy" decoding="async" />
+            <a className="primary-button final-button" href={checkoutUrl} onClick={handleCheckoutClick}>
+              QUERO RECEBER O MATERIAL
+            </a>
+            <div className="nova-offer-safety">
+              <span>Pagamento pela Kiwify</span>
+              <span>Entrega digital</span>
+              <span>Garantia de 7 dias</span>
             </div>
+            <img className="payment-banner" src="assets/payment-secure-banner.png" alt="Meios de pagamento disponíveis no checkout" loading="lazy" decoding="async" />
           </div>
         </div>
       </section>
 
-      <section className="guarantee-section" aria-labelledby="garantia-title">
+      <section id="garantia" className="guarantee-section" aria-labelledby="garantia-title">
         <div className="guarantee-card">
           <div className="guarantee-seal-wrap">
             <img
@@ -512,11 +412,22 @@ function SepticProjectSalesPage() {
             </p>
 
             <div className="guarantee-trust">
-              <strong>+5 anos no mercado</strong>
-              <span>Há mais de 5 anos ajudando pessoas a mudar de realidade e construir uma renda mais sustentável.</span>
+              <strong>Compromisso com a clareza</strong>
+              <span>Você confere o conteúdo, o preço e as condições antes de decidir. Não prometemos renda garantida.</span>
             </div>
           </div>
         </div>
+      </section>
+
+      <section id="pos-compra" className="nova-post-purchase" aria-labelledby="nova-post-title">
+        <span className="nova-section-kicker">DEPOIS DA COMPRA</span>
+        <h2 id="nova-post-title">Como você recebe o material?</h2>
+        <div className="nova-steps">
+          <article><span>1</span><h3>Finalize o pedido</h3><p>Escolha a forma de pagamento no checkout seguro da Kiwify.</p></article>
+          <article><span>2</span><h3>Aguarde a confirmação</h3><p>Após a confirmação, siga as instruções enviadas pela plataforma de compra para acessar o conteúdo.</p></article>
+          <article><span>3</span><h3>Abra seu guia</h3><p>Acesse o material digital e consulte as páginas quando precisar revisar as etapas.</p></article>
+        </div>
+        <p className="nova-post-footnote">Em caso de dúvidas sobre acesso ou reembolso, utilize os canais de suporte informados na confirmação do pedido.</p>
       </section>
 
       <section className="faq-section" aria-labelledby="faq-title">
@@ -558,7 +469,7 @@ function SepticProjectSalesPage() {
           </details>
         </div>
 
-        <a className="primary-button faq-cta" href={checkoutUrl} onClick={handleCheckoutClick}>QUERO VER O MATERIAL</a>
+        <a className="primary-button faq-cta" href="#comprar">REVER PREÇO E CONTEÚDO</a>
       </section>
 
       <footer className="site-footer">
@@ -581,9 +492,11 @@ function SepticProjectSalesPage() {
             <a href="#topo">Voltar ao topo</a>
             <a href="#material">Ver o material</a>
             <a href="#comprar">Ver oferta</a>
+            <a href="#pos-compra">Como receber</a>
+            <a href="#garantia">Garantia</a>
           </div>
 
-          <small>© 2026 Projeto Fossa Séptica. Todos os direitos reservados.</small>
+          <small>© 2026 Projeto Fossa Séptica. Todos os direitos reservados. Material educativo de referência; resultados financeiros dependem da experiência, da demanda e das condições de cada serviço.</small>
         </div>
       </footer>
     </main>
