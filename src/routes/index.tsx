@@ -258,7 +258,7 @@ function SepticProjectSalesPage() {
 
         <div className="application-gradient-zone">
           <div className="application-intro">
-            <h1>Feito para quem quer aprender sem complicação</h1>
+            <h2>Feito para quem quer aprender sem complicação</h2>
           </div>
 
           <div className="application-grid">
@@ -337,7 +337,7 @@ function SepticProjectSalesPage() {
           />
 
           <div className="income-promo-overlay-text">
-            <h1 id="income-title">UM NOVO SERVIÇO PARA VOCÊ OFERECER</h1>
+            <h2 id="income-title">UM NOVO SERVIÇO PARA VOCÊ OFERECER</h2>
             <p>Um tipo de serviço que você pode estudar para oferecer conforme sua experiência, a demanda local e as exigências técnicas. Não existe garantia de clientes ou renda.</p>
           </div>
         </div>
