@@ -1327,7 +1327,7 @@
   text-align: center;
 }
 
-.application-intro h1 {
+.application-intro h2 {
   margin: 0;
   color: #102033;
   font-size: clamp(1.8rem, 4.4vw, 3.2rem);
@@ -2087,7 +2087,7 @@
   text-align: center;
 }
 
-.income-promo-overlay-text h1 {
+.income-promo-overlay-text h2 {
   margin: 0;
   color: #ffffff;
   font-size: clamp(2rem, 5vw, 4rem);
@@ -2115,7 +2115,7 @@
     gap: 8px;
   }
 
-  .income-promo-overlay-text h1 {
+  .income-promo-overlay-text h2 {
     font-size: clamp(1.8rem, 9vw, 2.6rem);
   }
 
@@ -3469,7 +3469,7 @@
   margin-bottom: 28px;
 }
 
-.application-gradient-zone .application-intro h1 {
+.application-gradient-zone .application-intro h2 {
   color: #ffffff;
   text-shadow: 0 3px 18px rgba(0, 14, 45, 0.34);
 }
@@ -3506,7 +3506,7 @@
     margin-bottom: 22px;
   }
 
-  .application-gradient-zone .application-intro h1 {
+  .application-gradient-zone .application-intro h2 {
     font-size: clamp(1.75rem, 8.7vw, 2.45rem);
     line-height: 1.05;
   }
@@ -4289,4 +4289,11 @@
   .nova-hero-logo img { height: 42px; }
   .nova-proof-grid { grid-template-columns: 1fr 1fr; }
   .nova-proof-grid img:last-child { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nova-hero .primary-button::before,
+  .nova-checkout-section .primary-button::before {
+    animation: none;
+  }
 }
